@@ -1,42 +1,89 @@
+body {
+  height: 100vh;
+  background-color: var(--background-color);
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  height: 100vh;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 90%;
+  gap: 1em;
+}
+
+.form_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2em;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input {
+     padding: 5px;
+     font-size: 16px;
+     border-width: 7px;
+     border-color: #163143;
+     background-color: #ffffff;
+     color: #000000;
+     border-style: double;
+     border-radius: 13px;
+     box-shadow: 0px 0px 9px rgba(22,49,67,.75);
+     text-shadow: -50px 0px 0px rgba(66,66,66,.0);
+     width: 70%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.button_submit{
+  box-shadow: 3px 4px 0px 0px #8a2a21;
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+	background-color:#c62d1f;
+	border-radius:18px;
+	border:1px solid #d02718;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
 }
 
-.card {
-  padding: 2em;
+.button_submit:hover{
+  background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	background-color:#f24437;
+}
+.button_submit:active{
+  position:relative;
+	top:1px;
 }
 
-.read-the-docs {
-  color: #888;
+.input:focus{
+  outline:none;
 }
+
+.result{
+  height: 87%;
+  width: 90%;
+  margin-bottom: 2em;
+  border: 0.1em solid black;
+  background-color: white;
+}
+
+

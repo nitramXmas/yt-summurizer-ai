@@ -1,37 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useForm } from "react-hook-form"
+
 import './App.css'
-import test from "./components/Test"
-import Test from "./components/Test"
+import ResultText from "./components/ResultText"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+    const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+
+  const onSubmit = (data) => console.log(data)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="form_container">
+        <input className="input" placeholder="Wich product to you need to review from YT ?" {...register("searchInput", { required: true })} />
+        {/* errors will return when field validation fails  */}
+        <input className="button_submit" type="submit" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Test/>
-    </>
+      {errors.searchInput && <span>This field is required</span>}
+    </form>
+    <ResultText/>
+    </div>
   )
 }
 
