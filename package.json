@@ -1,0 +1,16 @@
+{
+  "name": "yt-summurizer-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm i && npm --prefix ./client i && npm --prefix ./api i",
+    "all": "concurrently \"cd client && npm run dev\" \"cd api && npm run dev\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
