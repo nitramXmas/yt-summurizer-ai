@@ -1,0 +1,22 @@
+:root {
+
+  --primary-color: #0c3944;
+  --primary-color-light: #859ca1;
+  --background-color: #ecf3ef;
+  --ultra-light-color: #fff;
+  --tag-background-color: #f1f6f8;
+  --separator: 1px solid #dbebe3;
+
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  color: var(--primary-color);
+}
