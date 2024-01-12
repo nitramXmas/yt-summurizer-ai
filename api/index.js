@@ -1,6 +1,9 @@
 require('dotenv').config();
 const axios  = require("axios");
 const cors = require("cors");
+
+var getSubtitles = require('youtube-captions-scraper').getSubtitles;
+
 const ytApiKey = process.env.YT_API_KEY;
 const ytApiUrl = "https://www.googleapis.com/youtube/v3";
 
@@ -15,44 +18,36 @@ app.use("/api", APIRouter);
 
 APIRouter.get("/search", (req, res, next)=> {
 
+// res.writeHead(301, { "Location": authorizationUrl });
+
 const searchQuery = req.query.search_query
 
 axios.get(`${ytApiUrl}/search`, {
   params : {
     key : ytApiKey,
     part: 'snippet',
-    q: `tesla review`,
+    q: `iphone 13 pro review`,
     type : 'video',
     order : 'viewcount',
-    maxResults: 3,
+    maxResults: 5,
     videoCaption: 'closedCaption'
   }
 })
 .then(response => {
   const videoIdArray = response.data.items.map(item => item.id.videoId)
   videoIdArray.forEach(videoId => {
-    axios.get(`${ytApiUrl}/captions`, {
-      params :{
-        key : ytApiKey,
-        part : 'snippet',
-        videoId : videoId,
-      }
-    })
-    .then(captionResponse => {
-      const captions = captionResponse.data.items;
-      const captionEnIdArray = captions.filter(caption=>(caption.snippet.language === 'en')).map(captionEn=>captionEn.id)
-      const captionEnId = captionEnIdArray[0]
-      //console.log(`En caption of video ${videoId} : ${captionEnId}`)
-        axios.get(`${ytApiUrl}/captions/${captionEnId}`)
-        .then(captionContentResponse => console.log(captionContentResponse))
-        .catch(err => {
-        console.error(`Error while fetching caption content for video ${videoId} caption ${captionEnId} : ${err}`)
-        })
 
-    })
-    .catch(err => {
-      console.error(`Error while fetching caption IDs for video ${videoId} : ${err}`)
-    })
+getSubtitles({
+  videoID: videoId, // youtube video id
+  lang: 'en' // default: `en`
+}).then(function(captions) {
+  let result = ''
+  captions.forEach(caption =>{
+    result += caption.text
+  })
+  console.log(result);
+});
+
   })
 })
 .catch(err => {
