@@ -5,6 +5,7 @@ const port = process.env.APP_PORT || 5002;
 
 const searchRoutes = require("./routes/searchRouter.js");
 
+
 const APIRouter = express.Router();
 APIRouter.use("/search", searchRoutes);
 

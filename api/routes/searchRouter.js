@@ -1,9 +1,11 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const OpenAI = require("openai")
 const bodyParser = require("body-parser");
 const getSubtitles = require('youtube-captions-scraper').getSubtitles;
 
+const openai = new OpenAI();
 const ytApiKey = process.env.YT_API_KEY;
 const ytApiUrl = "https://www.googleapis.com/youtube/v3";
 
@@ -29,7 +31,7 @@ searchRouter.post("/", async (req, res, next) => {
         q: `${searchQuery} review`,
         type: 'video',
         order: 'relevance',
-        maxResults: 1,
+        maxResults: 2,
         videoCaption: 'closedCaption'
       }
     });
@@ -39,7 +41,7 @@ searchRouter.post("/", async (req, res, next) => {
     const captionsPromises = videoIdArray.map(videoId =>
       getSubtitles({
         videoID: videoId,
-        lang: 'en'
+        lang: '*'
       })
     );
 
@@ -59,7 +61,14 @@ searchRouter.post("/", async (req, res, next) => {
       resultArray.push(concatenatedText.trim());
     });
 
-    res.status(200).send(resultArray);
+    // Summarize using OpenAI API
+    const summarizedResults = await openai.chat.completions.create({
+        messages: [{ role: "system", content: `You are a helpful buying assistant that help me to summerize all thoses reviews from youtube : ${resultArray.join('\n')}. The summery MUST be in french with a first part describing the product. A second part comparing to the concurence if the videos speakes about. A third part with bullets pros and cons and a finall part as a bying advice` }],
+        model: "gpt-3.5-turbo-1106",
+
+
+    });
+    res.status(200).send({ summarizedText: summarizedResults.choices[0].message.content});
   } catch (err) {
     console.error(`Error while fetching search data for : ${err}`);
     res.status(500).send({ error: 'Internal Server Error' });

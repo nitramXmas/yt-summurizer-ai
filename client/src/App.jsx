@@ -24,7 +24,7 @@ function App() {
       search: data.searchInput
     })
     .then(response => {
-      setResultText(response.data)
+      setResultText(response.data.summarizedText)
     })
     .catch(err => console.error(err))
   } 
