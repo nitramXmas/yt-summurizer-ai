@@ -1,8 +1,10 @@
 import React from 'react'
 
-const ResultText = () => {
+const ResultText = ({text}) => {
   return (
     <div className="result">
+
+      {text}
       
     </div>
   )
