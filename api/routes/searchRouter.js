@@ -25,17 +25,18 @@ searchRouter.use(
 
 searchRouter.post("/", async (req, res, next) => {
   try {
-    const searchQuery = req.body.search;
+    const {search, language} = req.body
+
     const resultArray = [];
 
     const response = await axios.get(`${ytApiUrl}/search`, {
       params: {
         key: ytApiKey,
         part: 'snippet',
-        q: `${searchQuery} review`,
+        q: `${search} review`,
         type: 'video',
         order: 'relevance',
-        maxResults: 2,
+        maxResults: 5,
         videoCaption: 'closedCaption'
       }
     });
@@ -75,9 +76,21 @@ searchRouter.post("/", async (req, res, next) => {
      });
     */
 
+     /**
+     * MistralAI Version
+     * 
+     * */
      const summarizedResults = await mistralAi.chat({
       model : 'mistral-tiny',
-      messages: [{ role: "user", content: `As a buying assistant help me to summerize product reviews from Youtube : ${resultArray.join('\n')}.Summery MUST be in french with 4 parts : product presentation, concurrence, pros / cons and bying advice` }],
+      messages: [
+        { role: "system", 
+        content: `As a buying assistant help me to summerize product reviews from Youtube. Summery MUST be in ${language} with 4 parts : product presentation, concurrence, pros / cons and bying advice` 
+        },
+        {
+          role: "user",
+          content : `Here are the product reviews : ${resultArray.join('\n')}.`
+        }
+    ],
      });
 
     res.status(200).send({ summarizedText: summarizedResults.choices[0].message.content});
