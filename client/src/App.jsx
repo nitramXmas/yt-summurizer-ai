@@ -21,10 +21,11 @@ function App() {
   const onSubmit = (data) => {
     
     axios.post(`${apiUrl}/search`, {
-      search: data.searchInput
+      search: data.searchInput,
+      language : data.language
     })
     .then(response => {
-      setResultText(response.data)
+      setResultText(response.data.summarizedText)
     })
     .catch(err => console.error(err))
   } 
@@ -34,6 +35,10 @@ function App() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form_container">
         <input className="input" placeholder="Wich product to you need to review from YT ?" {...register("searchInput", { required: true })} />
+        <input className="radio" type="radio" value="french"{...register("language")} />
+        Francais
+        <input className="radio" type="radio" value="english"{...register("language")} />
+        English
         {/* errors will return when field validation fails  */}
         <input className="button_submit" type="submit" />
       </div>
